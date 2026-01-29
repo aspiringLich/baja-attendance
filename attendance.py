@@ -144,7 +144,7 @@ def write_date_header(sheet_id, sheet_name, column):
         service.spreadsheets().values().update(
             spreadsheetId=sheet_id,
             range=f"{sheet_name}!{column}1",
-            valueInputOption="RAW",
+            valueInputOption="USER_ENTERED",
             body={"values": [[today]]},
         ).execute()
     except HttpError as err:
@@ -172,7 +172,7 @@ def write_attendance_id(sheet_id, sheet_name, column, row, attendance_id):
         service.spreadsheets().values().update(
             spreadsheetId=sheet_id,
             range=f"{sheet_name}!{column}{row}",
-            valueInputOption="RAW",
+            valueInputOption="USER_ENTERED",
             body={"values": [[attendance_id]]},
         ).execute()
     except HttpError as err:
