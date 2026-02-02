@@ -193,15 +193,17 @@ def read_and_write_attendance(sheet_id, sheet_name, column):
     try:
         for line in sys.stdin:
             line = line.strip()
+            match = re.search(r";2281000(\d{7})?", line)
             if not line:
                 continue
-            if not line.isdigit() or len(line) != 7:
+            if not match:
                 # Move cursor to end of line, print in red, then move to next line
                 print(f"\0337\033[1A\033[{len(line)}C\033[31m ✗ Invalid input (must be exactly 7 digits)\033[0m", end="\0338")
             else:
+                line = match.group(1)
                 # Write immediately to sheet
                 write_attendance_id(sheet_id, sheet_name, column, row, line)
-                print(f"\0337\033[1A\033[{len(line)}C\033[32m ✓ row {row}\033[0m", end="\0338")
+                print(f"\0337\033[1A\033[2K{line}\033[32m ✓ row {row}\033[0m", end="\0338")
                 row += 1
                 count += 1
             # flush
